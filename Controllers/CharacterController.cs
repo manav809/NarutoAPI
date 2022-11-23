@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using NarutoAPI.Data;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NarutoAPI.Controllers
@@ -21,13 +21,20 @@ namespace NarutoAPI.Controllers
                     Id = 1,
                     Name = "Naruto Uzumaki",
                     Gender = "Male",
-                    Clan = "Uzumaki"
+                    //Clan = "Uzumaki"
                 },
                 new Character{
                     Id = 2,
                     Name = "Sasuke Uchiha",
                     Gender = "Male",
-                    Clan = "Uchiha"
+                    //Clan = "Uchiha"
+                },
+                new Character
+                {
+                    Id = 3,
+                    Name = "Itachi Uchiha",
+                    Gender = "Male",
+                    //Clan = "Uchiha"
                 }
             };
         [HttpGet]
@@ -63,7 +70,7 @@ namespace NarutoAPI.Controllers
             }
             character.Name = shinobi.Name;
             character.Gender = shinobi.Gender;
-            character.Clan = shinobi.Clan;
+            //character.Clan = shinobi.Clan;
 
             return Ok(characters);
         }
