@@ -66,8 +66,9 @@ namespace NarutoAPI.Controllers
         public async Task<ActionResult<List<Character>>> AddCharacter(Character shinobi)
         { 
             //Used to add Naruto Characters
-            characters.Add(shinobi);
-            return Ok(characters);
+            _context.Characters.Add(shinobi);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Characters.ToListAsync());/*CreatedAtAction("GetCharacter", new { id = shinobi.CharacterId }, shinobi);*/
         }
         [HttpPut]
         public async Task<ActionResult<List<Character>>> UpdateCharacter(Character shinobi)

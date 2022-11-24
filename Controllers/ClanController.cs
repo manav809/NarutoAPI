@@ -10,8 +10,13 @@ namespace NarutoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClanController : Controller
+    public class ClanController : ControllerBase
     {
+        private readonly DataContext _context;
+        public ClanController(DataContext context)
+        {
+            _context = context;
+        }
         private static List<Character> characters = new List<Character>
         {
                 new Character{
@@ -33,18 +38,39 @@ namespace NarutoAPI.Controllers
             new Clan {
                 ClanId = 1,
                 ClanName = "Uchiha",
-                //clanCharacters = characters
+                //ClanCharacters = characters
             } 
         };
         [HttpGet]
         public async Task<ActionResult<List<Clan>>> Get()
         {
-            return Ok(clans);
+            var myClansList = await _context.Clans.ToListAsync(); //List<Clan>
+            var myCharacterList = await _context.Characters.ToListAsync();//List<Character>
+            int ClanSize = myClansList.Count + 1;
+            for(int id = 1; id < ClanSize; id++)
+            {
+                var clan = await _context.Clans.SingleAsync(h => h.ClanId == id);
+                var clanCharacters = await _context.Characters
+                                     .Where(c => c.ClanId == id)
+                                     .ToListAsync();
+                clan.ClanCharacters = clanCharacters;
+            }
+            //myClansList.ForEach(c => c.ClanId == myCharacterList.ForEach(h => h.ClanId == c.ClanId)
+            //for(int i = 0; i < )
+            //List<string> clanMembers = new List<string>();
+            //var myCharacterList = await _context.Characters.ToListAsync();
+            //myClansList.ForEach(c => c.ClanName == ); 
+            return myClansList;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Clan>> Get(int id)
         {
-            var clan = clans.Find(h => h.ClanId == id);
+            var clan = await _context.Clans.SingleAsync(h => h.ClanId == id);
+            var clanCharacters = await _context.Characters
+                        .Where(c => c.ClanId == id)
+                        .ToListAsync();
+            //var potentialClanList = await _context.Characters.ToListAsync().;
+            clan.ClanCharacters = clanCharacters;
             if(clan == null)
             {
                 return BadRequest("Clan Not Found!!!");
@@ -54,8 +80,12 @@ namespace NarutoAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Clan>>> AddClan(Clan clan)
         {
-            clans.Add(clan);
-            return Ok(clans);
+            _context.Clans.Add(clan);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Clans.ToListAsync());
+
+            //clans.Add(clan);
+            //return Ok(clans);
         }
         [HttpPut]
         public async Task<ActionResult<List<Clan>>> UpdateClan(Clan clan_)
