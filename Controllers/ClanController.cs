@@ -12,11 +12,28 @@ namespace NarutoAPI.Controllers
     [ApiController]
     public class ClanController : Controller
     {
+        private static List<Character> characters = new List<Character>
+        {
+                new Character{
+                    CharacterId = 2,
+                    CharacterName = "Sasuke Uchiha",
+                    Gender = "Male",
+                    //Clan = "Uchiha"
+                },
+                new Character
+                {
+                    CharacterId = 3,
+                    CharacterName = "Itachi Uchiha",
+                    Gender = "Male",
+                    //Clan = "Uchiha"
+                }
+        };
         private static List<Clan> clans = new List<Clan>
         {
             new Clan {
                 ClanId = 1,
-                ClanName = "Uchiha"
+                ClanName = "Uchiha",
+                //clanCharacters = characters
             } 
         };
         [HttpGet]

@@ -13,26 +13,30 @@ namespace NarutoAPI.Controllers
     //shinobi means ninja in the ninjaworld of Naruto!!!!
     [Route("api/[controller]")]
     [ApiController]
-    public class CharacterController : Controller
+    public class CharacterController : ControllerBase
     {
+        private readonly DataContext _context;
+        public CharacterController(DataContext context) {
+            _context = context; 
+        }
         private static List<Character> characters = new List<Character>
             {
                 new Character {
-                    Id = 1,
-                    Name = "Naruto Uzumaki",
+                    CharacterId = 1,
+                    CharacterName = "Naruto Uzumaki",
                     Gender = "Male",
                     //Clan = "Uzumaki"
                 },
                 new Character{
-                    Id = 2,
-                    Name = "Sasuke Uchiha",
+                    CharacterId = 2,
+                    CharacterName = "Sasuke Uchiha",
                     Gender = "Male",
                     //Clan = "Uchiha"
                 },
                 new Character
                 {
-                    Id = 3,
-                    Name = "Itachi Uchiha",
+                    CharacterId = 3,
+                    CharacterName = "Itachi Uchiha",
                     Gender = "Male",
                     //Clan = "Uchiha"
                 }
@@ -41,12 +45,17 @@ namespace NarutoAPI.Controllers
         public async Task<ActionResult<List<Character>>> Get()
         {
 
-            return Ok(characters);
+            var myCharacterList = await _context.Characters.ToListAsync();
+            var myClanList = await _context.Clans.ToListAsync();
+            myCharacterList.ForEach(c => c.ClanName = myClanList.Single(h => h.ClanId == c.ClanId).ClanName);
+            return myCharacterList;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> Get(int id)
         {
-            var character = characters.Find(h => h.Id == id);
+            var character = await _context.Characters.SingleAsync(h => h.CharacterId == id);
+            var clanName = (await _context.Clans.SingleAsync(h => h.ClanId == character.ClanId)).ClanName;
+            character.ClanName = clanName;
             if(character == null)
             {
                 return BadRequest("Character Not Found! Try another.");
@@ -63,12 +72,12 @@ namespace NarutoAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Character>>> UpdateCharacter(Character shinobi)
         {
-            var character = characters.Find(h => h.Id == shinobi.Id);
+            var character = characters.Find(h => h.CharacterId == shinobi.CharacterId);
             if (character == null)
             {
                 return BadRequest("No such character found.");
             }
-            character.Name = shinobi.Name;
+            character.CharacterName = shinobi.CharacterName;
             character.Gender = shinobi.Gender;
             //character.Clan = shinobi.Clan;
 
@@ -77,7 +86,7 @@ namespace NarutoAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Character>> Delete(int id)
         {
-            var character = characters.Find(h => h.Id == id);
+            var character = characters.Find(h => h.CharacterId == id);
             if(character == null)
             {
                 return BadRequest("No Deletion Needed.. Character Not Found!!!");
