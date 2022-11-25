@@ -6,7 +6,7 @@ namespace NarutoAPI.Data
 {
     public class Character
     {
-        [JsonIgnore]
+        //[JsonIgnore]
         public int CharacterId { get; set; }
         public string CharacterName { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;

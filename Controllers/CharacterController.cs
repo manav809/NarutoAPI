@@ -73,27 +73,30 @@ namespace NarutoAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Character>>> UpdateCharacter(Character shinobi)
         {
-            var character = characters.Find(h => h.CharacterId == shinobi.CharacterId);
+            var character = await _context.Characters.FindAsync(shinobi.CharacterId);
             if (character == null)
             {
                 return BadRequest("No such character found.");
             }
+        
+            character.CharacterId = shinobi.CharacterId;
             character.CharacterName = shinobi.CharacterName;
             character.Gender = shinobi.Gender;
-            //character.Clan = shinobi.Clan;
-
-            return Ok(characters);
+            character.ClanId = shinobi.ClanId;
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Characters.ToListAsync());
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Character>> Delete(int id)
         {
-            var character = characters.Find(h => h.CharacterId == id);
+            var character = await _context.Characters.FindAsync(id);
             if(character == null)
             {
                 return BadRequest("No Deletion Needed.. Character Not Found!!!");
             }
-            characters.Remove(character);
-            return Ok(character);
+            _context.Characters.Remove(character);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Characters.ToListAsync());
         }
 
     }
