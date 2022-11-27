@@ -17,7 +17,6 @@ namespace NarutoAPI.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly DataContext _context;
-        //public Response response = new Data.Response();
         public CharacterController(DataContext context) {
             _context = context; 
         }
