@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NarutoAPI.Data;
+using System.Text.Json;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NarutoAPI.Controllers
@@ -18,30 +19,37 @@ namespace NarutoAPI.Controllers
         {
             _context = context;
         }
+        /*
+        This is for visualization purposes
+
         private static List<Character> characters = new List<Character>
         {
                 new Character{
                     CharacterId = 2,
                     CharacterName = "Sasuke Uchiha",
                     Gender = "Male",
-                    //Clan = "Uchiha"
+                    ClanId = 1,
+                    ClanName = "Uchiha"
                 },
                 new Character
                 {
                     CharacterId = 3,
                     CharacterName = "Itachi Uchiha",
                     Gender = "Male",
-                    //Clan = "Uchiha"
+                    ClanId = 1,
+                    ClanName = "Uchiha"
                 }
         };
+        
         private static List<Clan> clans = new List<Clan>
         {
             new Clan {
                 ClanId = 1,
                 ClanName = "Uchiha",
-                //ClanCharacters = characters
+                ClanCharacters = characters
             } 
         };
+        */
         [HttpGet]
         public async Task<ActionResult<List<Clan>>> Get()
         {
@@ -56,49 +64,79 @@ namespace NarutoAPI.Controllers
                                      .ToListAsync();
                 clan.ClanCharacters = clanCharacters;
             }
-            //myClansList.ForEach(c => c.ClanId == myCharacterList.ForEach(h => h.ClanId == c.ClanId)
-            //for(int i = 0; i < )
-            //List<string> clanMembers = new List<string>();
-            //var myCharacterList = await _context.Characters.ToListAsync();
-            //myClansList.ForEach(c => c.ClanName == ); 
             return myClansList;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Clan>> Get(int id)
         {
-            var clan = await _context.Clans.SingleAsync(h => h.ClanId == id);
-            var clanCharacters = await _context.Characters
-                        .Where(c => c.ClanId == id)
-                        .ToListAsync();
-            //var potentialClanList = await _context.Characters.ToListAsync().;
-            clan.ClanCharacters = clanCharacters;
-            if(clan == null)
+            try
             {
-                return BadRequest("Clan Not Found!!!");
+                var clan = await _context.Clans.SingleAsync(h => h.ClanId == id);
+                var clanCharacters = await _context.Characters
+                            .Where(c => c.ClanId == id)
+                            .ToListAsync();
+                clan.ClanCharacters = clanCharacters;
+                //if (clan == null)
+                //{
+                //    return BadRequest("Clan Not Found!!!");
+                //}
+                return Ok(clan);
             }
-            return Ok(clan);
+            catch(Exception error)
+            {
+                Response response = new Response();
+                response.statusCode = BadRequest().StatusCode;
+                response.statusDescription = error.Message + "Error: Out of Bounds";
+                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                return BadRequest(jsonResponse);
+            }
         }
         [HttpPost]
         public async Task<ActionResult<List<Clan>>> AddClan(Clan clan)
         {
-            _context.Clans.Add(clan);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Clans.ToListAsync());
-
+            try
+            {
+                _context.Clans.Add(clan);
+                await _context.SaveChangesAsync();
+                return Ok(await _context.Clans.ToListAsync());
+            }
+            catch(Exception error)
+            {
+                Response response = new Response();
+                response.statusCode = BadRequest().StatusCode;
+                response.statusDescription = error.Message + "Error: Undefined Request Body";
+                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                return BadRequest(jsonResponse);
+            }
             //clans.Add(clan);
             //return Ok(clans);
         }
         [HttpPut]
         public async Task<ActionResult<List<Clan>>> UpdateClan(Clan clan_)
         {
-            var clan = clans.Find(h => h.ClanId == clan_.ClanId);
-            if(clan == null)
+            try
             {
-                return BadRequest("No such character found.");
+                var clan = await _context.Clans.FindAsync(clan_.ClanId);
+                //if(clan == null)
+                //{
+                //    return BadRequest("No such character found.");
+                //}
+                clan.ClanName = clan_.ClanName;
+                await _context.SaveChangesAsync();
+                return Ok(await _context.Clans.ToListAsync());
             }
-            clan.ClanName = clan_.ClanName;
-            return Ok(clans);
+            catch(Exception error)
+            {
+                Response response = new Response();
+                response.statusCode = BadRequest().StatusCode;
+                response.statusDescription = error.Message + "Error: id in request body does not exist."
+                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                return BadRequest(jsonResponse);
+            }
         }
+        /*
+        Deletion not necessary as this is a parent
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Character>> DeleteClan(int id)
         {
@@ -109,9 +147,9 @@ namespace NarutoAPI.Controllers
             }
             clans.Remove(clan);
             return Ok(clans);
-
         }
+        */
     }
-    
+
 }
 

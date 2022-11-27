@@ -20,6 +20,8 @@ namespace NarutoAPI.Controllers
         public CharacterController(DataContext context) {
             _context = context; 
         }
+        /*
+        This is for visualization purposes
         private static List<Character> characters = new List<Character>
             {
                 new Character {
@@ -42,6 +44,7 @@ namespace NarutoAPI.Controllers
                     //Clan = "Uchiha"
                 }
             };
+        */
         [HttpGet]
         public async Task<ActionResult<List<Character>>> Get()
         {
@@ -107,7 +110,7 @@ namespace NarutoAPI.Controllers
             {
                 Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
-                response.statusDescription = error.Message + " Error: shinobi.id does not exist or shinobi.ClanId does not exist...cannot find character to update!";
+                response.statusDescription = error.Message + " Error: id request body does not exist or shinobi.ClanId does not exist...cannot find character to update!";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return BadRequest(jsonResponse);
             }
