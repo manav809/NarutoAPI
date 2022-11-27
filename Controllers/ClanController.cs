@@ -129,7 +129,7 @@ namespace NarutoAPI.Controllers
             {
                 Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
-                response.statusDescription = error.Message + "Error: id in request body does not exist."
+                response.statusDescription = error.Message + "Error: id in request body does not exist.";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return BadRequest(jsonResponse);
             }
