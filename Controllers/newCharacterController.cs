@@ -80,15 +80,15 @@ namespace NarutoAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/newCharacter
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //POST: api/newCharacter
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Character>> PostCharacter(Character character)
         {
-          if (_context.Characters == null)
-          {
-              return Problem("Entity set 'DataContext.Characters'  is null.");
-          }
+            if (_context.Characters == null)
+            {
+                return Problem("Entity set 'DataContext.Characters'  is null.");
+            }
             _context.Characters.Add(character);
             await _context.SaveChangesAsync();
 

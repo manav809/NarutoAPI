@@ -14,6 +14,10 @@ namespace NarutoAPI.Data
         [NotMapped]
         //[JsonIgnore]
         public string ClanName { get; set; }
+        //[NotMapped]
+        //[JsonIgnore]
+        //public Response response { get; set; }
+
         //public Clan? CharacterClan { get; set; }
     }
 }
