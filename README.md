@@ -3,6 +3,24 @@
 
 ### Table of Contents: File Structure and Organization
 
+```bash
+├── Controllers
+│   ├── CharacterController.cs
+│   └── ClanController.cs
+├── Models
+│   ├── Character.cs
+│   ├── Clan.cs
+│   ├── DataContext.cs
+│   └── Response.cs
+├── Properties
+│   └── launchSettings.json
+├── NarutoAPI.csproj
+├── NarutoAPI.sln
+├── Program.cs
+├── README.md (We are here)
+├── appsettings.Development.json
+├── appsettings.json
+```
 
 ## HTTP Endpoints and Protocols
 
