@@ -1,8 +1,10 @@
 ﻿# Naruto API: The API Hidden in the Leaf
 ### Manav Minesh Patel
 
+### Table of Contents: File Structure and Organization
 
-## HTTP Endpoints
+
+## HTTP Endpoints and Protocols
 
 #### GET Requests:
 
@@ -71,6 +73,8 @@ DELETE/api/character/${id}
 - [X] Response Model
     - [X] statusCode
     - [X] statusDescription
+    - [X] charactersList
+    - [X] clansList
 - [X] Two Tables
     - [X] Characters
     - [X] Clans

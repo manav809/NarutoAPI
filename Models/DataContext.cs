@@ -2,9 +2,9 @@
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using NarutoAPI.Data;
+using NarutoAPI.Models;
 
-namespace NarutoAPI.Data
+namespace NarutoAPI.Models
 {
     public class DataContext: DbContext
     {

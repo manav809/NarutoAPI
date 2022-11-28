@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace NarutoAPI.Data
+namespace NarutoAPI.Models
 {
     public class Clan
     {
