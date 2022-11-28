@@ -2,10 +2,10 @@
 ### Manav Minesh Patel
 
 
-#### HTTP Endpoints
+##### HTTP Endpoints
 
+#### GET Requests:
 
-##### GET Requests:
 ```bash
 Get all characters: GET/api/character/
 Get specific character: GET/api/character/${id}
@@ -13,7 +13,8 @@ Get all clan: GET/api/clan/
 Get specific clan: GET/api/clan/${id}
 ```
 
-##### PUT Requests:
+#### PUT Requests and POST Requests:
+
 ```bash
 PUT/api/character/
 POST/api/character/
@@ -45,8 +46,11 @@ Request Body:
   ]
 }
 ** Note: clanCharacters is unnecessary
-```
-Delete
+
+#### DELETE Requests:
+
+```bash
+DELETE/api/character/${id}
 ```
 
 
