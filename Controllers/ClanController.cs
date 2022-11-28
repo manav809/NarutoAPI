@@ -163,7 +163,7 @@ namespace NarutoAPI.Controllers
         //Deletion not necessary as this is a parent
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Character>> DeleteClan(int id)
+        public async Task<ActionResult<Clan>> DeleteClan(int id)
         {
             var clan = await _context.Clans.FindAsync(id);
             if(clan == null)
