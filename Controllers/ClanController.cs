@@ -103,6 +103,17 @@ namespace NarutoAPI.Controllers
             Response response = new Response();
             try
             {
+                var myClanList = await _context.Clans.ToListAsync();
+                var clanCount = myClanList.Count() + 1;
+                if(clan.ClanId != clanCount)
+                {
+                    //Exception error;
+                    response.statusCode = BadRequest().StatusCode;
+                    response.statusDescription = "Error: Undefined or Bad Request Body...Try the next ClanId";
+                    var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                    return Ok(response);
+                }
+                //clan.ClanId = clanCount;
                 _context.Clans.Add(clan);
                 await _context.SaveChangesAsync();
                 response.statusCode = 200;
@@ -114,7 +125,7 @@ namespace NarutoAPI.Controllers
             {
                 //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
-                response.statusDescription = error.Message + "Error: Undefined Request Body";
+                response.statusDescription = error.Message + "Error: Undefined Request Body, Try the next ClanId";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return Ok(response);
             }
@@ -148,21 +159,22 @@ namespace NarutoAPI.Controllers
                 return Ok(response);
             }
         }
-        /*
-        Deletion not necessary as this is a parent
+        
+        //Deletion not necessary as this is a parent
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Character>> DeleteClan(int id)
         {
-            var clan = clans.Find(h => h.ClanId == id);
+            var clan = await _context.Clans.FindAsync(id);
             if(clan == null)
             {
                 return BadRequest("No Deletion Needed");
             }
-            clans.Remove(clan);
-            return Ok(clans);
+            _context.Clans.Remove(clan);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Clans.ToListAsync());
         }
-        */
+        
     }
 
 }
