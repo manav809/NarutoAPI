@@ -85,27 +85,32 @@ namespace NarutoAPI.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<List<Character>>> AddCharacter(Character shinobi)
+        public async Task<ActionResult<List<Response>>> AddCharacter(Character shinobi)
         {
             //Used to add Naruto Characters
+            Response response = new Response();
             try
             {
                 _context.Characters.Add(shinobi);
                 await _context.SaveChangesAsync();
-                return Ok(await _context.Characters.ToListAsync());
+                response.statusCode = 200;
+                response.statusDescription = "Successfully Added New Character!";
+                response.charactersList = await _context.Characters.ToListAsync();
+                return Ok(response);
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: shinobi.clan does not exist";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return Ok(response);
             }
         }
         [HttpPut]
-        public async Task<ActionResult<List<Character>>> UpdateCharacter(Character shinobi)
+        public async Task<ActionResult<List<Response>>> UpdateCharacter(Character shinobi)
         {
+            Response response = new Response();
             try
             {
                 var character = await _context.Characters.FindAsync(shinobi.CharacterId);
@@ -114,20 +119,24 @@ namespace NarutoAPI.Controllers
                 character.Gender = shinobi.Gender;
                 character.ClanId = shinobi.ClanId;
                 await _context.SaveChangesAsync();
-                return Ok(await _context.Characters.ToListAsync());
+                response.statusCode = 200;
+                response.statusDescription = "Successfully Updated Character!";
+                response.charactersList = await _context.Characters.ToListAsync();
+                return Ok(response);
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: id request body does not exist or shinobi.ClanId does not exist...cannot find character to update!";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return BadRequest(response);
             }
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Character>> Delete(int id)
         {
+            Response response = new Response();
             try
             {
                 var character = await _context.Characters.FindAsync(id);
@@ -137,11 +146,14 @@ namespace NarutoAPI.Controllers
                 //}
                 _context.Characters.Remove(character);
                 await _context.SaveChangesAsync();
+                response.statusCode = 200;
+                response.statusDescription = "Successfully Deleted Character!";
+                response.charactersList = await _context.Characters.ToListAsync();
                 return Ok(await _context.Characters.ToListAsync());
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: Parameter id out of bounds or character already doesn't exit!";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);

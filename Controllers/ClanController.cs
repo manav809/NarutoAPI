@@ -98,28 +98,33 @@ namespace NarutoAPI.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<List<Clan>>> AddClan(Clan clan)
+        public async Task<ActionResult<List<Response>>> AddClan(Clan clan)
         {
+            Response response = new Response();
             try
             {
                 _context.Clans.Add(clan);
                 await _context.SaveChangesAsync();
-                return Ok(await _context.Clans.ToListAsync());
+                response.statusCode = 200;
+                response.statusDescription = "Successfully Added Clan!";
+                response.clansList = await _context.Clans.ToListAsync();
+                return Ok(response);
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + "Error: Undefined Request Body";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return Ok(response);
             }
             //clans.Add(clan);
             //return Ok(clans);
         }
         [HttpPut]
-        public async Task<ActionResult<List<Clan>>> UpdateClan(Clan clan_)
+        public async Task<ActionResult<List<Response>>> UpdateClan(Clan clan_)
         {
+            Response response = new Response();
             try
             {
                 var clan = await _context.Clans.FindAsync(clan_.ClanId);
@@ -129,15 +134,18 @@ namespace NarutoAPI.Controllers
                 //}
                 clan.ClanName = clan_.ClanName;
                 await _context.SaveChangesAsync();
-                return Ok(await _context.Clans.ToListAsync());
+                response.statusCode = 200;
+                response.statusDescription = "Successfully Updated Clan!";
+                response.clansList = await _context.Clans.ToListAsync();
+                return Ok(response);
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + "Error: id in request body does not exist.";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return Ok(response);
             }
         }
         /*
