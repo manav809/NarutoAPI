@@ -54,7 +54,7 @@ Request Body:
 DELETE/api/character/${id}
 ```
 
-#### Project Requirements and Status:
+#### Project Requirements and Status Checklist:
 - [X] 3 Endpoints
     - [X] api/character/
     - [X] api/character/${id}
@@ -69,6 +69,16 @@ DELETE/api/character/${id}
     - [X] Character Controller
     - [X] Clan Controller
 - [X] Response Model
+    - [X] statusCode
+    - [X] statusDescription
+- [X] Two Tables
+    - [X] Characters
+    - [X] Clans
+- [X] One Foreign Key
+    - [X] ClanID, One to Many from Clans table to Character Table
+- [X] Additional Constraint
+    - [X] CharacterName not null
+
 
 
 
