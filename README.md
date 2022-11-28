@@ -1,7 +1,7 @@
 ﻿# Naruto API: The API Hidden in the Leaf
 ### Manav Minesh Patel
 
-<img src="https://media.giphy.com/media/Mj0gk1wnekXC0/giphy.gif"  width = "400" height = "250"/>
+![Naruto Gif](https://media.giphy.com/media/Mj0gk1wnekXC0/giphy.gif)
 ### Table of Contents: File Structure and Organization
 
 ```bash
