@@ -1,6 +1,7 @@
 ﻿# Naruto API: The API Hidden in the Leaf
 ### Manav Minesh Patel
 
+![Naruto Gif](https://media.giphy.com/media/Mj0gk1wnekXC0/giphy.gif)
 ### Table of Contents: File Structure and Organization
 
 ```bash
@@ -73,7 +74,11 @@ Request Body:
 ```bash
 DELETE/api/character/${id}
 ```
+#### Response Body:
 
+```bash
+
+```
 #### Project Requirements and Status Checklist:
 - [X] 3 Endpoints
     - [X] api/character/
