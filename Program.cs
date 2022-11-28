@@ -1,4 +1,4 @@
-﻿global using NarutoAPI.Data;
+﻿global using NarutoAPI.Models;
 global using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
