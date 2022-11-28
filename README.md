@@ -1,20 +1,23 @@
 ﻿# Naruto API: The API Hidden in the Leaf
 ### Manav Minesh Patel
 
+
+#### HTTP Endpoints
+
+
+##### GET Requests:
 ```bash
-HTTP Endpoints
-
-GET Requests:
-
 Get all characters: GET/api/character/
 Get specific character: GET/api/character/${id}
 Get all clan: GET/api/clan/
 Get specific clan: GET/api/clan/${id}
+```
 
-PUT Requests:
-
+##### PUT Requests:
+```bash
 PUT/api/character/
 POST/api/character/
+
 Request Body:
 {
   "characterId": 0,
@@ -23,8 +26,10 @@ Request Body:
   "clanId": 0,
   "clanName": "string"
 }
+
 PUT/api/clan/
 POST/api/clan/
+
 Request Body:
 {
   "clanId": int,
@@ -39,9 +44,9 @@ Request Body:
     }
   ]
 }
-** Note: clanCharacters is unnecessary 
-
-
+** Note: clanCharacters is unnecessary
+```
+Delete
 ```
 
 
