@@ -77,7 +77,36 @@ DELETE/api/character/${id}
 #### Response Body:
 
 ```bash
-
+[
+  {
+    "statusCode": 0,
+    "statusDescription": "string",
+    "charactersList": [
+      {
+        "characterId": 0,
+        "characterName": "string",
+        "gender": "string",
+        "clanId": 0,
+        "clanName": "string"
+      }
+    ],
+    "clansList": [
+      {
+        "clanId": 0,
+        "clanName": "string",
+        "clanCharacters": [
+          {
+            "characterId": 0,
+            "characterName": "string",
+            "gender": "string",
+            "clanId": 0,
+            "clanName": "string"
+          }
+        ]
+      }
+    ]
+  }
+]
 ```
 #### Project Requirements and Status Checklist:
 - [X] 3 Endpoints
