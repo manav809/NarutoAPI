@@ -102,7 +102,7 @@ namespace NarutoAPI.Controllers
             {
                 //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
-                response.statusDescription = error.Message + " Error: shinobi.clan does not exist";
+                response.statusDescription = error.Message + " Error: shinobi attributes may be causing the error... check id and clan";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return Ok(response);
             }
