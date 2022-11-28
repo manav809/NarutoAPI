@@ -46,6 +46,7 @@ Request Body:
   ]
 }
 ** Note: clanCharacters is unnecessary
+```
 
 #### DELETE Requests:
 
