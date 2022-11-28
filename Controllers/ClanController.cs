@@ -51,7 +51,7 @@ namespace NarutoAPI.Controllers
         };
         */
         [HttpGet]
-        public async Task<ActionResult<List<Clan>>> Get()
+        public async Task<ActionResult<List<Response>>> Get()
         {
             var myClansList = await _context.Clans.ToListAsync(); //List<Clan>
             var myCharacterList = await _context.Characters.ToListAsync();//List<Character>
@@ -64,11 +64,16 @@ namespace NarutoAPI.Controllers
                                      .ToListAsync();
                 clan.ClanCharacters = clanCharacters;
             }
-            return myClansList;
+            Response response = new Response();
+            response.statusCode = 200;
+            response.statusDescription = "Success!";
+            response.clansList = myClansList;
+            return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Clan>> Get(int id)
+        public async Task<ActionResult<Response>> Get(int id)
         {
+            Response response = new Response();
             try
             {
                 var clan = await _context.Clans.SingleAsync(h => h.ClanId == id);
@@ -76,19 +81,20 @@ namespace NarutoAPI.Controllers
                             .Where(c => c.ClanId == id)
                             .ToListAsync();
                 clan.ClanCharacters = clanCharacters;
-                //if (clan == null)
-                //{
-                //    return BadRequest("Clan Not Found!!!");
-                //}
-                return Ok(clan);
+                response.statusCode = 200;
+                response.statusDescription = "Success!";
+                List<Clan> clanList = new List<Clan>();
+                clanList.Add(clan);
+                response.clansList = clanList;
+                return Ok(response);
             }
             catch(Exception error)
             {
-                Response response = new Response();
+                //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + "Error: Out of Bounds";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return BadRequest(response);
             }
         }
         [HttpPost]

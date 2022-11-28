@@ -46,23 +46,33 @@ namespace NarutoAPI.Controllers
             };
         */
         [HttpGet]
-        public async Task<ActionResult<List<Character>>> Get()
+        public async Task<ActionResult<List<Response>>> Get()
         {
 
             var myCharacterList = await _context.Characters.ToListAsync();
             var myClanList = await _context.Clans.ToListAsync();
             myCharacterList.ForEach(c => c.ClanName = myClanList.Single(h => h.ClanId == c.ClanId).ClanName);
-            return myCharacterList;
+            Response response = new Response();
+            response.charactersList = myCharacterList;
+            response.statusCode = 200;
+            response.statusDescription = "Success!";
+            return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Character>> Get(int id)
+        public async Task<ActionResult<Response>> Get(int id)
         {
             try
             {
+                Response response = new Response();
                 var character = await _context.Characters.SingleAsync(h => h.CharacterId == id);
                 var clanName = (await _context.Clans.SingleAsync(h => h.ClanId == character.ClanId)).ClanName;
                 character.ClanName = clanName;
-                return Ok(character);
+                List<Character> characterlist = new List<Character>();
+                characterlist.Add(character);
+                response.statusCode = 200;
+                response.statusDescription = "Success!";
+                response.charactersList = characterlist;
+                return Ok(response);
             }
             catch(Exception error)    
             {
@@ -71,7 +81,7 @@ namespace NarutoAPI.Controllers
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: Out of Bounds";
                 var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                return Ok(response);
             }
         }
         [HttpPost]

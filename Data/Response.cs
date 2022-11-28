@@ -9,6 +9,10 @@ namespace NarutoAPI.Data
         public int? statusCode { get; set; }
         [NotMapped]
         public string? statusDescription { get; set; }
+        [NotMapped]
+        public List<Character>? charactersList { get; set; }
+        [NotMapped]
+        public List<Clan>? clansList { get; set; }
     }
 }
 
