@@ -80,7 +80,7 @@ namespace NarutoAPI.Controllers
                 Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: Out of Bounds";
-                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                //var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return Ok(response);
             }
         }
@@ -93,7 +93,7 @@ namespace NarutoAPI.Controllers
             {
                 _context.Characters.Add(shinobi);
                 await _context.SaveChangesAsync();
-                response.statusCode = 200;
+                response.statusCode = 201;
                 response.statusDescription = "Successfully Added New Character!";
                 response.charactersList = await _context.Characters.ToListAsync();
                 return Ok(response);
@@ -103,7 +103,7 @@ namespace NarutoAPI.Controllers
                 //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: shinobi attributes may be causing the error... check id and clan";
-                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                //var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return Ok(response);
             }
         }
@@ -129,12 +129,12 @@ namespace NarutoAPI.Controllers
                 //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: id request body does not exist or shinobi.ClanId does not exist...cannot find character to update!";
-                var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                //var jsonResponse = JsonSerializer.Serialize<Response>(response);
                 return BadRequest(response);
             }
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Character>> Delete(int id)
+        public async Task<ActionResult<Response>> Delete(int id)
         {
             Response response = new Response();
             try
@@ -149,15 +149,15 @@ namespace NarutoAPI.Controllers
                 response.statusCode = 200;
                 response.statusDescription = "Successfully Deleted Character!";
                 response.charactersList = await _context.Characters.ToListAsync();
-                return Ok(await _context.Characters.ToListAsync());
+                return Ok(response);
             }
             catch(Exception error)
             {
                 //Response response = new Response();
                 response.statusCode = BadRequest().StatusCode;
                 response.statusDescription = error.Message + " Error: Parameter id out of bounds or character already doesn't exit!";
-                var jsonResponse = JsonSerializer.Serialize<Response>(response);
-                return BadRequest(jsonResponse);
+                //var jsonResponse = JsonSerializer.Serialize<Response>(response);
+                return BadRequest(response);
             }
         }
        

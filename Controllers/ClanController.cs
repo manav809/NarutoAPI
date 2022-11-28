@@ -116,7 +116,7 @@ namespace NarutoAPI.Controllers
                 //clan.ClanId = clanCount;
                 _context.Clans.Add(clan);
                 await _context.SaveChangesAsync();
-                response.statusCode = 200;
+                response.statusCode = 201;
                 response.statusDescription = "Successfully Added Clan!";
                 response.clansList = await _context.Clans.ToListAsync();
                 return Ok(response);
