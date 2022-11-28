@@ -2,7 +2,7 @@
 ### Manav Minesh Patel
 
 
-##### HTTP Endpoints
+## HTTP Endpoints
 
 #### GET Requests:
 
@@ -54,6 +54,21 @@ Request Body:
 DELETE/api/character/${id}
 ```
 
+#### Project Requirements and Status:
+- [X] 3 Endpoints
+    - [X] api/character/
+    - [X] api/character/${id}
+    - [X] api/clan/
+    - [X] api/clan/${id}
+- [X] 3 Methods
+    - [X] GET
+    - [X] POST
+    - [X] PUT
+    - [X] DELETE
+- [X] 1 Controller
+    - [X] Character Controller
+    - [X] Clan Controller
+- [X] Response Model
 
 
 
